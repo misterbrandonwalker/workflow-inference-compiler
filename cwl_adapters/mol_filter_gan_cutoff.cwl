@@ -3,17 +3,13 @@ cwlVersion: v1.0
 
 class: CommandLineTool
 
-label: MolFilterGAN tool for virtual screening
+label: score cutoff for MolFilterGAN tool
 
-baseCommand: ["conda", "run", "-n", "MolFilterGAN", "python", "/MolFilterGAN/Prediction.py"]
+baseCommand: ["conda", "run", "python", "/MolFilterGAN_cutoff.py"]
 
 hints:
-  cwltool:CUDARequirement:
-    cudaVersionMin: "11.7"
-    cudaComputeCapabilityMin: "3.0"
-    cudaDeviceCount: 0
   DockerRequirement:
-    dockerPull: mrbrandonwalker/mol-filter-gan:mol-filter-gan
+    dockerPull: mrbrandonwalker/mol-filter-gan:mol-filter-gan-cutoff
 
 requirements:
   InlineJavascriptRequirement: {}
@@ -39,25 +35,12 @@ inputs:
       separate: true
       prefix: --infile_path
 
-  load_dir:
-    type: string
+  cut_off:
+    type: float
     inputBinding:
       position: 2
       separate: true
-      prefix: --load_dir
-    default: "/MolFilterGAN/ADtrained_D.ckpt"
-
-
-  voc_path:
-    type: string
-    inputBinding:
-      position: 3
-      separate: true
-      prefix: --voc_path
-    default: "/MolFilterGAN/Datasets/Voc"
-
-  output_file:
-    type: string?
+      prefix: --cut_off
  
 outputs:
 
@@ -66,10 +49,10 @@ outputs:
     outputBinding:
       glob: stdout
 
-  output_file:
+  filtered_ligands:
     type: File
     outputBinding:
-      glob: "*smi_out.csv"
+      glob: "*filtered.smi"
 
 stdout: stdout
 

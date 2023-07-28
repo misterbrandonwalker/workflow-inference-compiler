@@ -3,6 +3,12 @@ steps:
   - mol_filter_gan:
       in:
         infile_path: 'test.smi'
+        output_file: "&output_file_edge"
+
+  - mol_filter_gan_cutoff:
+      in:
+        cut_off: .0001
+        infile_path: "*output_file_edge"
 
 wic:
   graphviz:
