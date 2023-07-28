@@ -1,0 +1,15 @@
+steps:
+
+  - mol_filter_gan:
+      in:
+        infile_path: 'test.smi'
+
+wic:
+  graphviz:
+    label: MolFilterGAN
+
+  steps:
+    (1, mol_filter_gan):
+      wic:
+        graphviz:
+          label: MolFilterGAN
